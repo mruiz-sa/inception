@@ -1,4 +1,6 @@
 #!bin/sh
+
+#Config of the wp, if the file does not exist, ot creates new one with the given content
 if [ ! -f "/var/www/wp-config.php" ]; then
 cat << EOF > /var/www/wp-config.php
 <?php
