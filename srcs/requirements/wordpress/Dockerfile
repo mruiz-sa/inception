@@ -1,4 +1,4 @@
-FROM alpine:3.16
+FROM alpine:3.17
 #ARGUMENTS FOR THE WP BUILD
 ARG DOMAIN_NAME \
     DB_NAME \
@@ -9,27 +9,26 @@ ARG DOMAIN_NAME \
     WP_ADMIN_EMAIL
 #INSTALL PHP PACKAGES AND MODIFY WWW.CONF OF PHP
 RUN apk update && apk upgrade && apk add --no-cache \
-    php8 \
-    php8-fpm \
-    php8-mysqli \
-    php8-json \
-    php8-curl \
-    php8-dom \
-    php8-exif \
-    php8-fileinfo \
-    php8-mbstring \
-    php8-openssl \
-    php8-xml \
-    php8-zip \
-    php8-redis \
+    php81 \
+    php81-fpm \
+    php81-mysqli \
+    php81-json \
+    php81-curl \
+    php81-dom \
+    php81-exif \
+    php81-fileinfo \
+    php81-mbstring \
+    php81-openssl \
+    php81-xml \
+    php81-zip \
     wget \
     unzip && \
     sed -i "s|listen = 127.0.0.1:9000|listen = 9000|g" \
-      /etc/php8/php-fpm.d/www.conf && \
+      /etc/php81/php-fpm.d/www.conf && \
     sed -i "s|;listen.owner = nobody|listen.owner = nobody|g" \
-      /etc/php8/php-fpm.d/www.conf && \
+      /etc/php81/php-fpm.d/www.conf && \
     sed -i "s|;listen.group = nobody|listen.group = nobody|g" \
-      /etc/php8/php-fpm.d/www.conf && \
+      /etc/php81/php-fpm.d/www.conf && \
     rm -f /var/cache/apk/*
 #INSTALL WP
 WORKDIR /var/www
@@ -51,4 +50,4 @@ RUN chmod +x install.sh && \
     sed -i "s|wp_admin_email_here|${WP_ADMIN_EMAIL}|g" install.sh
 
 #RUN INSTALL.SH AND RUN PHP-FPM DAEMON
-CMD ["sh", "-c", "./install.sh && /usr/sbin/php-fpm8 -F"]
+CMD ["sh", "-c", "./install.sh && /usr/sbin/php-fpm81 -F"]
